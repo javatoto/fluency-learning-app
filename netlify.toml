@@ -1,6 +1,25 @@
+# Netlify Configuration File
+
 [build]
-command = """
-curl https://sh.rustup.rs -sSf | sh -s -- -y
-export PATH="$HOME/.cargo/bin:$PATH"
-pip install -r requirements.txt
-"""
+  # The command to run to build your site
+  # (Adjust 'python manage.py build' or 'npm run build' to your specific framework)
+  command = "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+
+  # The directory that contains the deploy-ready HTML files and assets
+  # (Common values: 'dist', 'build', 'public', or '.' if it's a simple app)
+  publish = "public"
+
+[build.environment]
+  # Use Python 3.12 to ensure pre-built wheels are available for pydantic_core
+  # This avoids the "Cargo/Rust is not installed" error.
+  PYTHON_VERSION = "3.12"
+  
+  # Ensures pip uses the modern resolver
+  PIP_VERSION = "24.0"
+
+[[redirects]]
+  # Basic redirect rule for Single Page Applications (SPAs)
+  # This ensures that deep links work correctly by routing to index.html
+  from = "/*"
+  to = "/index.html"
+  status = 200
