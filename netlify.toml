@@ -3,7 +3,7 @@
 [build]
   # The command to run to build your site
   # (Adjust 'python manage.py build' or 'npm run build' to your specific framework)
-  command = "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+  command = "pip install -r requirements.txt"
 
   # The directory that contains the deploy-ready HTML files and assets
   # (Common values: 'dist', 'build', 'public', or '.' if it's a simple app)
