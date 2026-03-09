@@ -7,7 +7,7 @@
 
   # The directory that contains the deploy-ready HTML files and assets
   # (Common values: 'dist', 'build', 'public', or '.' if it's a simple app)
-  publish = "public"
+  publish = "app/templates"
 
 [build.environment]
   # Use Python 3.12 to ensure pre-built wheels are available for pydantic_core
