@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Progress Dashboard - Fluency Learning App{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">📊 Your Progress</h1>
+        <p class="text-gray-600">Track your improvement and celebrate your achievements</p>
+    </div>
+
+    <!-- Overall Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Total Practices -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-gray-600 text-sm font-medium">Total Practices</span>
+                <span class="text-2xl">🎯</span>
+            </div>
+            <div id="totalPractices" class="text-3xl font-bold text-indigo-600">0</div>
+            <div class="text-xs text-gray-500 mt-1">All time</div>
+        </div>
+
+        <!-- Average Score -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-gray-600 text-sm font-medium">Average Score</span>
+                <span class="text-2xl">⭐</span>
+            </div>
+            <div id="averageScore" class="text-3xl font-bold text-green-600">0</div>
+            <div class="text-xs text-gray-500 mt-1">Out of 100</div>
+        </div>
+
+        <!-- Best Score -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-gray-600 text-sm font-medium">Best Score</span>
+                <span class="text-2xl">🏆</span>
+            </div>
+            <div id="bestScore" class="text-3xl font-bold text-yellow-600">0</div>
+            <div class="text-xs text-gray-500 mt-1">Personal best</div>
+        </div>
+
+        <!-- Current Streak -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-gray-600 text-sm font-medium">Current Streak</span>
+                <span class="text-2xl">🔥</span>
+            </div>
+            <div id="currentStreak" class="text-3xl font-bold text-orange-600">0</div>
+            <div class="text-xs text-gray-500 mt-1">Days in a row</div>
+        </div>
+    </div>
+
+    <!-- Badges Section -->
+    <div id="badgesSection" class="bg-white rounded-lg shadow-md p-6 mb-8 hidden">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">🏅 Achievements</h2>
+        <div id="badgesContainer" class="flex flex-wrap gap-4">
+            <!-- Badges will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- Score Trend Chart -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Score Trend</h2>
+            <div style="position: relative; height: 300px;">
+                <canvas id="scoreTrendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Topic Breakdown Chart -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-4">Topics Breakdown</h2>
+            <div style="position: relative; height: 300px;">
+                <canvas id="topicsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Topics Progress Table -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-6">Progress by Topic</h2>
+        <div id="topicsProgress" class="space-y-4">
+            <!-- Topic progress bars will be inserted here -->
+        </div>
+        <div id="noProgressMessage" class="text-center py-8 text-gray-500 hidden">
+            <p class="text-lg mb-2">No practice sessions yet</p>
+            <p class="text-sm">Start practicing to see your progress!</p>
+            <a href="/" class="mt-4 inline-block bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">
+                Start Practicing
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="/static/js/progress.js"></script>
+{% endblock %}

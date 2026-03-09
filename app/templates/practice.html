@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Practice - Fluency Learning App{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Topic Header -->
+    <div class="mb-8">
+        <a href="/" class="text-indigo-600 hover:text-indigo-700 flex items-center mb-4">
+            ← Back to Topics
+        </a>
+        {% if topic %}
+        <div class="flex items-center mb-2">
+            <span class="text-5xl mr-4">{{ topic.icon }}</span>
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900">{{ topic.name }}</h1>
+                <p class="text-gray-600">{{ topic.description }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-4">Practice Settings</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Difficulty Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Difficulty Level
+                </label>
+                <select id="difficultySelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate" selected>Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                </select>
+            </div>
+
+            <!-- Accent Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Accent
+                </label>
+                <select id="accentSelect" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500">
+                    <option value="american" selected>American 🇺🇸</option>
+                    <option value="british">British 🇬🇧</option>
+                    <option value="australian">Australian 🇦🇺</option>
+                </select>
+            </div>
+        </div>
+
+        <button
+            id="generateBtn"
+            class="mt-6 w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+        >
+            Generate New Practice
+        </button>
+    </div>
+
+    <!-- Practice Content -->
+    <div id="practiceContent" class="hidden">
+        <!-- Text Display -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+            <h3 class="text-sm font-medium text-gray-500 mb-2 uppercase">Practice Text</h3>
+            <p id="practiceText" class="text-2xl text-gray-900 leading-relaxed mb-6">
+                <!-- Text will be inserted here -->
+            </p>
+
+            <!-- Native Audio Player -->
+            <div class="border-t pt-6">
+                <h4 class="text-sm font-medium text-gray-700 mb-3">🎧 Listen to Native Speaker</h4>
+                <audio id="nativeAudio" controls class="w-full">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <!-- Recording Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">🎤 Your Recording</h3>
+
+            <div class="flex flex-col items-center space-y-4">
+                <!-- Record Button -->
+                <button
+                    id="recordBtn"
+                    class="bg-red-500 text-white w-20 h-20 rounded-full font-semibold hover:bg-red-600 transition flex items-center justify-center text-2xl"
+                >
+                    ⏺
+                </button>
+
+                <div id="recordingStatus" class="text-gray-600 text-sm">
+                    Click to start recording
+                </div>
+
+                <!-- User Audio Player (hidden initially) -->
+                <div id="userAudioContainer" class="hidden w-full">
+                    <h4 class="text-sm font-medium text-gray-700 mb-3">Your Recording</h4>
+                    <audio id="userAudio" controls class="w-full">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <!-- Submit Button -->
+                <button
+                    id="submitBtn"
+                    class="hidden w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+                >
+                    Get Pronunciation Feedback
+                </button>
+            </div>
+        </div>
+
+        <!-- Feedback Section (hidden initially) -->
+        <div id="feedbackSection" class="hidden bg-white rounded-lg shadow-md p-8">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">📊 Your Results</h3>
+
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="text-center">
+                    <div id="scoreOverall" class="score-badge score-good mx-auto">
+                        --
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Overall</p>
+                </div>
+                <div class="text-center">
+                    <div id="scoreAccuracy" class="score-badge score-good mx-auto">
+                        --
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Accuracy</p>
+                </div>
+                <div class="text-center">
+                    <div id="scoreFluency" class="score-badge score-good mx-auto">
+                        --
+                    </div>
+                    <p class="text-sm text-gray-600 mt-2">Fluency</p>
+                </div>
+            </div>
+
+            <div id="transcriptionSection" class="border-t pt-6">
+                <h4 class="text-sm font-medium text-gray-700 mb-2">Your Transcription:</h4>
+                <p id="transcriptionText" class="text-lg text-gray-900 mb-4">
+                    <!-- Transcription will appear here -->
+                </p>
+            </div>
+
+            <button
+                id="tryAgainBtn"
+                class="w-full bg-gray-600 text-white py-3 rounded-lg font-semibold hover:bg-gray-700 transition"
+            >
+                Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="hidden flex flex-col items-center justify-center py-12">
+        <div class="spinner"></div>
+        <p class="text-gray-600 mt-4">Generating practice content...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="/static/js/practice.js"></script>
+{% endblock %}
