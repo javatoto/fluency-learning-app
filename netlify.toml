@@ -17,6 +17,9 @@
   # Ensures pip uses the modern resolver
   PIP_VERSION = "24.0"
 
+  # Tell Netlify to skip scanning specific folders
+  SECRETS_SCAN_OMIT_PATHS = "README.md, .env.example"
+
 [[redirects]]
   # Basic redirect rule for Single Page Applications (SPAs)
   # This ensures that deep links work correctly by routing to index.html
